@@ -1,44 +1,68 @@
 # Compiler and flags
-CC      = clang
-CFLAGS  = -Wall -O2 -fopenmp -lomp
-TARGET  = openmp_sort
-SRCS    = main.c mergesort.c test.c
-OBJS    = $(SRCS:.c=.o)
+CC      = gcc
+CFLAGS  = -Wall -O2 -fopenmp
+DEBUGFLAGS = -g -DDEBUG
 
-# If DEBUG is enabled, define it and change binary name
-ifdef DEBUG
-    CFLAGS += -DDEBUG
-    TARGET := $(TARGET)_debug
-endif
+SRC_DIR = src
+OBJ_DIR = obj
+BIN_DIR = bin
 
-.PHONY: all debug clean test benchmark run
+TARGET  = $(BIN_DIR)/openmp_sort
+DEBUG_TARGET = $(BIN_DIR)/openmp_sort_debug
+
+SRCS    = $(wildcard $(SRC_DIR)/*.c)
+OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+DEBUG_OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%_debug.o, $(SRCS))
+
+.PHONY: all debug clean run rundebug test benchmark rebuild
 
 # Default build
 all: $(TARGET)
 
 # Debug build
-debug:
-	$(MAKE) DEBUG=1
+debug: $(DEBUG_TARGET)
 
-# Build target
-$(TARGET): $(OBJS)
+# Linking
+$(TARGET): $(OBJS) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
-# Compile source files
-%.o: %.c
+$(DEBUG_TARGET): $(DEBUG_OBJS) | $(BIN_DIR)
+	$(CC) $(CFLAGS) $(DEBUGFLAGS) -o $@ $^
+
+# Compile source to object
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Run in test mode (default)
-test: $(TARGET)
+$(OBJ_DIR)/%_debug.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(DEBUGFLAGS) -c $< -o $@
+
+# Create directories
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
+
+# Run
+run: $(TARGET)
 	./$(TARGET)
 
-# Run in benchmark mode
-benchmark: $(TARGET)
-	./$(TARGET) benchmark
+rundebug: $(DEBUG_TARGET)
+	./$(DEBUG_TARGET)
 
-# General run (alias for test)
-run: test
-
-# Cleanup
+# Clean
 clean:
-	rm -f *.o openmp_sort openmp_sort_debug
+	rm -rf $(OBJ_DIR)/*.o $(BIN_DIR)/openmp_sort $(BIN_DIR)/openmp_sort_debug
+
+# Rebuild
+rebuild: clean all
+
+# Test
+test: $(TARGET)
+	@echo "Running tests..."
+	./$(TARGET) test
+
+# Benchmark
+benchmark: $(TARGET)
+	@echo "Running benchmark..."
+	./$(TARGET) benchmark

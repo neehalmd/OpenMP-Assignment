@@ -1,7 +1,5 @@
 #include "mergesort.h"
 #include <omp.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 void merge(int *arr, int left, int mid, int right) {
   // TODO: Implement Merge function(serial)
