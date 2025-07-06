@@ -14,7 +14,7 @@ SRCS    = $(wildcard $(SRC_DIR)/*.c)
 OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 DEBUG_OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%_debug.o, $(SRCS))
 
-.PHONY: all debug clean run rundebug test benchmark rebuild
+.PHONY: all debug clean run rundebug rebuild
 
 # Default build
 all: $(TARGET)
@@ -56,5 +56,3 @@ clean:
 
 # Rebuild
 rebuild: clean all
-
-
