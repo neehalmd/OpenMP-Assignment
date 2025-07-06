@@ -1,11 +1,13 @@
 #include "mergesort.h"
 #include <omp.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 void merge(int *arr, int left, int mid, int right) {
-  // TODO: Implement Merge function(serial)
-  // will be used by both sequential and parallel
-  // implementations.
+  // TODO: Implement standard iterative merge,
+  // used by both parallel and serial sort functions.
 }
+
 void merge_sort_sequential(int *arr, int left, int right) {
   if (right - left <= 1)
     return;
@@ -15,7 +17,16 @@ void merge_sort_sequential(int *arr, int left, int right) {
   merge(arr, left, mid, right);
 }
 
+void merge_sort_parallel_internal(int *arr, int left, int right) {}
+
 void merge_sort_parallel(int *arr, int left, int right) {
-  // TODO: Implement Merge Sort using Open MP
-  // each recursive call will be run parallel
+
+// NOTE: This part need not be modified, the parallel and single
+// constructs creates the threads.
+#pragma omp parallel
+#pragma omp single
+  {
+    // the main sorting logic will be in this function.
+    merge_sort_parallel_internal(arr, left, right);
+  }
 }

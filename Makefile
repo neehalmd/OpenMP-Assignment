@@ -57,12 +57,4 @@ clean:
 # Rebuild
 rebuild: clean all
 
-# Test
-test: $(TARGET)
-	@echo "Running tests..."
-	./$(TARGET) test
 
-# Benchmark
-benchmark: $(TARGET)
-	@echo "Running benchmark..."
-	./$(TARGET) benchmark
