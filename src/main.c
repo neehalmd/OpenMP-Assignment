@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #define TEST_SIZE 10
+#define SEED 42
 
 bool check_sorted(int *arr, int size) {
   for (int i = 1; i < size; i++) {
@@ -27,7 +28,7 @@ int main(int argc, char *argv[]) {
 
   // constructing array for tests
   int serial_arr[TEST_SIZE], parallel_arr[TEST_SIZE];
-  srand(42);
+  srand(SEED);
   for (int i = 0; i < TEST_SIZE; i++) {
     int v = rand() % 100;
     serial_arr[i] = parallel_arr[i] = v;

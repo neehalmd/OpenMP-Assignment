@@ -17,7 +17,10 @@ void merge_sort_sequential(int *arr, int left, int right) {
   merge(arr, left, mid, right);
 }
 
-void merge_sort_parallel_internal(int *arr, int left, int right) {}
+void merge_sort_parallel_internal(int *arr, int left, int right) {
+  // TODO: this is where the parallel algorithm needs to be implemented.
+  // Best approach is to use `pragma omp task` and `pragma omp taskwait`
+}
 
 void merge_sort_parallel(int *arr, int left, int right) {
 
