@@ -19,8 +19,12 @@ The objective here is to implement a parallel approach to merge sort.
 - gcc (with openmp)
 - make
 ## Steps
-- Implement the standard Merge function
-- Implement the parallel version of the given mergesort function.
+- Fork this repository
+- Work on the forked repo and commit to it
+- In the code you will need to
+    - Implement the standard Merge  function
+    - Implement the parallel version of the given mergesort function.
+- you will need to submit the link to your repo for evaluation
 
 > Look for TODO: comments in the codebase
 
